@@ -2,14 +2,11 @@ require('dotenv').config()
 
 const express = require('express')
 const mongoose = require('mongoose')
+const dbConnection = require('./src/config/dbConnection')
 const app = express()
 
 app.use(express.json())
-
-mongoose.connect(process.env.DB_URL).then(() => {
-    console.log('MongoDB Database Connected...');
-
-});
+dbConnection();
 
 app.get('/', (req, res) => {
     res.send('Assalamu Alikum, HR Management Project Testing...')
