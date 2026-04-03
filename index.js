@@ -3,14 +3,18 @@ require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const dbConnection = require('./src/config/dbConnection')
+
+const { registrationController } = require('./src/controllers/authController')
+
 const app = express()
 
 app.use(express.json())
+
+// database connection...
 dbConnection();
 
-app.get('/', (req, res) => {
-    res.send('Assalamu Alikum, HR Management Project Testing...')
-});
+// routes...
+app.post('/api/auth/registration', registrationController);
 
 // test on port environment...
 console.log(process.env.PORT);
