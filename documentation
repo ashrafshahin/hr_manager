@@ -11,3 +11,4 @@ https://mongoosejs.com/docs/validation.html
 
 mongodb compass download to connect mongoDB easily...
 
+now we will do encrypt password by bcrypt.js
