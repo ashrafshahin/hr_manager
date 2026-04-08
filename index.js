@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 const dbConnection = require('./src/config/dbConnection')
 
 const { registrationController, loginController, logoutController } = require('./src/controllers/authController')
+const profileController = require('./src/controllers/profileController')
 
 const app = express()
 
@@ -13,10 +14,13 @@ app.use(express.json())
 // database connection...
 dbConnection();
 
-// routes...
+// Auth routes...
 app.post('/api/auth/registration', registrationController);
 app.post('/api/auth/login', loginController);
 app.post('/api/auth/logout', logoutController);
+
+// Profile Routes
+app.post('/api/profile/profilecreate', profileController);
 
 
 // test on port environment...
