@@ -12,3 +12,23 @@ https://mongoosejs.com/docs/validation.html
 mongodb compass download to connect mongoDB easily...
 
 now we will do encrypt password by bcrypt.js
+
+
+Status code: 
+201 → New resource created (registration success)
+200 → Successful request (login success, fetch data) kono kaj OK hoise...
+
+409 Conflict → resource already exists... [registration  jabe...]
+404 -> database e [Data nai 404 - login] user or email nai...
+401 -> email or password jekono akta wrong korse user,... Invalid credentials...
+403 -> user data retricted 
+
+500 → Server/database errors
+
+
+CRUD: KIVABE KAJ KORE 
+fronend => backend          =   POST [ database e data pathno...]
+backend => frontend         =   GET  [database theke data ante hobe...] 
+Data FULL replace/Update    =   PUT
+Data PARTIAL replace/update =   PATCH
+Data Delete                 =   DELETE                    

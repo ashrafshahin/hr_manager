@@ -7,7 +7,7 @@ const registrationController = async (req, res) => {
     try {
         const existingUser = await User.findOne({ email: email });
         if (existingUser) {
-            return res.status(400).json({
+            return res.status(409).json({
                 success: false,
                 message: 'Email already exists...'
             })
@@ -15,7 +15,7 @@ const registrationController = async (req, res) => {
 
         // password rejex problem solved...
         const passwordRegex =
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,14}$/;
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,14}$/;
         if (!passwordRegex.test(password)) {
             return res.status(400).send({
                 message: "Please fill a valid Password..."
@@ -52,9 +52,45 @@ const registrationController = async (req, res) => {
     };
 
 
+};
+
+const loginController = async (req, res) => {
+    const { email, password } = req.body
+    try {
+        const existingUser = await User.findOne({ email: email })
+        if (!existingUser) {
+            return res.status(404).json({
+                success: false,
+                message: "User/email not found. Please register first...",
+            })
+        };
+
+        const pass = bcrypt.compareSync(password, existingUser.password);
+        if (pass) {
+            res.status(200).json({
+                success: true,
+                message: "Loging successful..."
+            })
+        } else {
+            res.status(400).json({
+                success: false,
+                message: "Invalid Credential..."
+            })
+        };
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Server error..."
+        })
+    }
+    
+
 }
 
-module.exports = { registrationController }
+module.exports = { registrationController, loginController  }
 
 //note:
 // সংক্ষেপে বলি 👉 না, এক request-এ দুইটা res.send() ব্যবহার করা যায় না ❌
+
+// compare korar time user er password sathe database password compare hobe...
