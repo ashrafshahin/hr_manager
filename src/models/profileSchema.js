@@ -1,10 +1,12 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose
 
+
+
 const profileSchema = new Schema({
     employeeId: {
         type: String,
-        
+        required: true,
     },
     employeeName: {
         type: String,
@@ -17,7 +19,12 @@ const profileSchema = new Schema({
         lowercase: true,
         trim: true,
     },
-    
+    employeeDesignation: {
+        type: String,
+        required: true,
+        unique:true,
+    },
+
     employeeAge: {
         type: String,
         required: true,
