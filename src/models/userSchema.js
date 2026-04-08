@@ -22,7 +22,7 @@ const userSchema = new Schema({
         max: [14, 'You exceeded maximum limit...'],
         // match: [/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,14}$/, 'Please fill a valid Password...']
     },
-    photo:{
+    photo: {
         type: String
     },
     nid: {
@@ -32,9 +32,14 @@ const userSchema = new Schema({
     },
     address: {
         type: String,
+    },
+
+    isLogin: {
+        type: Boolean,
+        default: false,
     }
      
-})
+});
 
 module.exports = mongoose.model('User', userSchema);
 

@@ -4,7 +4,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const dbConnection = require('./src/config/dbConnection')
 
-const { registrationController, loginController } = require('./src/controllers/authController')
+const { registrationController, loginController, logoutController } = require('./src/controllers/authController')
 
 const app = express()
 
@@ -15,7 +15,9 @@ dbConnection();
 
 // routes...
 app.post('/api/auth/registration', registrationController);
-app.post('/api/auth/login', loginController );
+app.post('/api/auth/login', loginController);
+app.post('/api/auth/logout', logoutController);
+
 
 // test on port environment...
 console.log(process.env.PORT);

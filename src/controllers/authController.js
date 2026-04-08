@@ -58,6 +58,15 @@ const loginController = async (req, res) => {
     const { email, password } = req.body
     try {
         const existingUser = await User.findOne({ email: email })
+        
+        // One device login system...1
+        if (existingUser.isLogin) {
+            return res.status(400).json({
+                success: false,
+                message: "Please logOut from another device...",
+            })
+        };
+        
         if (!existingUser) {
             return res.status(404).json({
                 success: false,
@@ -66,6 +75,11 @@ const loginController = async (req, res) => {
         };
 
         const pass = bcrypt.compareSync(password, existingUser.password);
+        
+        // One device login system...2
+        existingUser.isLogin = true
+        existingUser.save()
+
         if (pass) {
             res.status(200).json({
                 success: true,
@@ -86,11 +100,26 @@ const loginController = async (req, res) => {
     }
     
 
-}
+};
 
-module.exports = { registrationController, loginController  }
+const logoutController = async (req, res) => {
+    const { id } = req.body;
+    const existingUser = await User.findOne({ _id: id });
+    existingUser.isLogin = false;
+    existingUser.save() // database e save kore √.√.Important
+    res.status(200).json({
+        success: true,
+        message: "Log Out Successully..."
+    });
+};
+
+module.exports = { registrationController, loginController , logoutController }
 
 //note:
 // সংক্ষেপে বলি 👉 না, এক request-এ দুইটা res.send() ব্যবহার করা যায় না ❌
 
 // compare korar time user er password sathe database password compare hobe...
+
+// islogin- 3 jaigai + logout astese...
+// schema te FALSE, bcrypt e TRUE , 
+// login er niche another device logout message...
