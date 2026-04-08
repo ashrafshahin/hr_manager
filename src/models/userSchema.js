@@ -20,7 +20,7 @@ const userSchema = new Schema({
         required: [true, "Password is required..."],
         min: [8, 'minimum 8 digit required...'],
         max: [14, 'You exceeded maximum limit...'],
-        match: [/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,14}$/, 'Please fill a valid Password...']
+        // match: [/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,14}$/, 'Please fill a valid Password...']
     },
     photo:{
         type: String
@@ -28,7 +28,7 @@ const userSchema = new Schema({
     nid: {
         type: Number,
         min: [10, 'Smart card - minimum 10 digit required...'],
-        max: [17, 'Un Smart card - maximum 17 digit required...']
+        max: [17, 'Un-Smart card - maximum 17 digit required...']
     },
     address: {
         type: String,
@@ -38,4 +38,4 @@ const userSchema = new Schema({
 
 module.exports = mongoose.model('User', userSchema);
 
-// model hobe its a controllers, schema is a blueprint...  x mongoose.schema x √ mongoose.model √
+// model hobe its a controllers, schema is a blueprint. x mongoose.schema x √ mongoose.model √

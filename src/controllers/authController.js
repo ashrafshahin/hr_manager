@@ -1,5 +1,5 @@
 const User = require("../models/userSchema")
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcrypt')
 
 const registrationController = async (req, res) => {
     const { username, email, password } = req.body
@@ -10,30 +10,42 @@ const registrationController = async (req, res) => {
             return res.status(400).json({ success: false, message: 'Email already exists...' })
         };
 
-        bcrypt.hash(password, 10, async function (err, hash) {
-            if (err) {
-                console.log(err)
-                return res.status(500).json({ success: false, message: 'Server error...' })
-            }
-        
-            console.log("hash checking...",hash);
-            
-            // Creating new users...
-            const createUser = new User({
-                username: username,
-                email: email,
-                password: hash
-            })
-            
-             createUser.save();
-
-            res.send({
-                id: createUser._id,
-                username: createUser.username,
-                email: createUser.email,
-                password: hash,
+        // password rejex problem solved...
+        const passwordRegex =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,14}$/;
+        if (!passwordRegex.test(password)) {
+            return res.status(400).send({
+                message: "Please fill a valid Password..."
             });
+        }
+        const hashPassword = bcrypt.hashSync(password, 10);
+        console.log(hashPassword);
+        
+        // Creating new users...
+        const createUser = await new User({
+            username: username,
+            email: email,
+            password: hashPassword
+        }).save();
+
+        res.send({
+            id: createUser._id,
+            username: createUser.username,
+            email: createUser.email,
+            
         });
+        
+
+        // bcrypt.hash(password, 10, async function (err, hash) {
+        //     if (err) {
+        //         console.log(err)
+        //         return res.status(500).json({ success: false, message: 'Server error...' })
+        //     }
+        
+        //     console.log("hash checking...",hash);
+            
+            
+        // });
 
 
     } catch (error) {
