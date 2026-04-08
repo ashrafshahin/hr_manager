@@ -7,7 +7,10 @@ const registrationController = async (req, res) => {
     try {
         const existingUser = await User.findOne({ email: email });
         if (existingUser) {
-            return res.status(400).json({ success: false, message: 'Email already exists...' })
+            return res.status(400).json({
+                success: false,
+                message: 'Email already exists...'
+            })
         };
 
         // password rejex problem solved...
@@ -28,26 +31,20 @@ const registrationController = async (req, res) => {
             password: hashPassword
         }).save();
 
-        res.send({
-            id: createUser._id,
-            username: createUser.username,
-            email: createUser.email,
-            
-        });
+        try {
+            res.status(201).json({
+                id: createUser._id,
+                username: createUser.username,
+                email: createUser.email,
+            })
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: "Something went wrong..."
+            })
+        }
         
-
-        // bcrypt.hash(password, 10, async function (err, hash) {
-        //     if (err) {
-        //         console.log(err)
-        //         return res.status(500).json({ success: false, message: 'Server error...' })
-        //     }
-        
-        //     console.log("hash checking...",hash);
-            
-            
-        // });
-
-
+       
     } catch (error) {
         console.log(error);
         return res.status(500).json({ success: false, message: 'Server Error...' })
