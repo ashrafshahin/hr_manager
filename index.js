@@ -4,8 +4,8 @@ const express = require('express')
 const mongoose = require('mongoose')
 const dbConnection = require('./src/config/dbConnection')
 
-const { registrationController, loginController, logoutController } = require('./src/controllers/authController')
-const profileController = require('./src/controllers/profileController')
+const { registrationController, loginController, logoutController } = require('./src/controllers/authController');
+const { createProfileController, getProfileController } = require('./src/controllers/profileController');
 
 const app = express()
 
@@ -20,7 +20,9 @@ app.post('/api/auth/login', loginController);
 app.post('/api/auth/logout', logoutController);
 
 // Profile Routes
-app.post('/api/profile/profilecreate', profileController);
+app.post('/api/profile/profilecreate', createProfileController);
+app.get('/api/profile/getprofile', getProfileController);
+
 
 
 // test on port environment...
