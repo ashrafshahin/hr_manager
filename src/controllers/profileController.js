@@ -51,13 +51,32 @@ const getProfileController = async (req, res) => {
         if (data) {
             res.status(200).json({ message: 'All Profiles', data: data, success: true });
         } else {
-             res.status(400).json({ success: false, message: 'Data not Found...' });
+            res.status(400).json({ success: false, message: 'Data not Found...' });
         }
     } catch (error) {
-         res.status(500).json({ success: false, message: 'Server Error...' });
+        res.status(500).json({ success: false, message: 'Server Error...' });
+    }
+    
+};
+
+const getSingleProfile = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const data = await Profile.findOne({ _id: id });
+        if (data) {
+            res.status(200).json({
+                message: `${data.employeeName},${data.employeeAge} Profile`,
+                data: data,
+                success: true
+            });
+        } else {
+            res.status(400).json({ success: false, message: 'Data not Found...' });
+        }
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Server Error...' });
     }
     
 
 }
 
-module.exports = {createProfileController, getProfileController,  } ;
+module.exports = { createProfileController, getProfileController, getSingleProfile  } ;
