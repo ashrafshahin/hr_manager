@@ -75,8 +75,23 @@ const getSingleProfile = async (req, res) => {
     } catch (error) {
         res.status(500).json({ success: false, message: 'Server Error...' });
     }
+
+};
+
+const updateProfile = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const data = await Profile.findByIdAndUpdate({ _id: id }, req.body, { new: true });
+        if (data) {
+            res.status(200).json({ message: `${data.employeeName} Profile Updated...`, data: data, success: true });
+        } else {
+            res.status(400).json({ success: false, message: "Profile update failed..." });
+        }
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Server error..." });
+    }
     
 
 }
 
-module.exports = { createProfileController, getProfileController, getSingleProfile  } ;
+module.exports = { createProfileController, getProfileController, getSingleProfile, updateProfile  } ;

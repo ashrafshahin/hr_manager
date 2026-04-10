@@ -50,3 +50,17 @@ _id => database er id...
 
 REQ.BODY = body theke data collect korte hole use hoi...
 REQ.PARAMS = url / routes theke data collect kore...
+
+
+update:  
+3 ta jinish normally thakbe... id, ki update korbo, options: true/false
+A.findByIdAndUpdate(id, update, options)  // returns Query
+
+1. document's _id field. findByIdAndUpdate(id, ...) is equivalent to findOneAndUpdate({ _id: id }, ...).
+2. Finds a matching document, updates it according to the update arg, 
+3. passing any options, and returns the found document (if any).
+
+response pathano:
+1. data: data [jabe]
+2. success: true [jodi pathate chao]
+3. message: `${data.employeeName} Profile Updated...` [ki korecho...]
