@@ -64,3 +64,34 @@ response pathano:
 1. data: data [jabe]
 2. success: true [jodi pathate chao]
 3. message: `${data.employeeName} Profile Updated...` [ki korecho...]
+
+
+replace data: 
+3 ta jinish dete hobe...
+
+^Issue a MongoDB findOneAndReplace() command.
+Finds a matching document, replaces it with the provided doc, and returns the document.
+This function triggers the following query middleware. = findOneAndReplace()
+Example:
+A.findOneAndReplace(filter, replacement, options)  // return Query
+A.findOneAndReplace(filter, replacement) // returns Query
+A.findOneAndReplace()                    // returns Query
+
+Scope of Modification:
+=>findByIdAndUpdate(): 
+Performs a partial update. It uses update operators (like $set or $inc) to modify specific fields within a document while leaving other existing fields untouched.
+
+=>findOneAndReplace(): 
+Performs a full replacement. It finds the document and replaces its entire content with a new document provided in the second argument. Any fields in the original document that are not present in the replacement document will be deleted (except for the _id field).
+
+returnDocument: "after" / "before" ager ba porer data debo?
+runValidators: true, [schema check kortese]
+lean:true  [dorkar nai aikhane]
+
+learning:
+1. replace korle required field must new data dete hobe,
+2. replace korle unique: true thakle dekte hobe
+3. employeeId was written twice in Create Profile function... akber hobe
+4. employeeId k fix rakte hoise  { ...req.body, employeeId: existingProfile.employeeId },
+5. put bebohar korse
+6. 

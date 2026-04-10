@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 const dbConnection = require('./src/config/dbConnection')
 
 const { registrationController, loginController, logoutController } = require('./src/controllers/authController');
-const { createProfileController, getProfileController, getSingleProfile, updateProfile } = require('./src/controllers/profileController');
+const { createProfileController, getProfileController, getSingleProfile, updateProfile, replaceProfile } = require('./src/controllers/profileController');
 
 const app = express()
 
@@ -26,6 +26,8 @@ app.get('/api/profile/getprofile', getProfileController);
 app.get('/api/profile/getsingleprofile/:id', getSingleProfile);
 
 app.post('/api/profile/updateprofile/:id', updateProfile);
+app.put('/api/profile/replaceprofile/:id', replaceProfile);
+
 
 
 

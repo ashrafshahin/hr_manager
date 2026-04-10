@@ -4,7 +4,7 @@ const Profile = require("../models/profileSchema");
 
 const createProfileController = async (req, res) => {
     
-    const { employeeId, employeeName, employeeEmail, employeeAge, employeeBloodGroup, employeeMaritalStatus, employeeNumber, employeeGender, employeeDoB, employeeDesignation } = req.body
+    const { employeeName, employeeEmail, employeeAge, employeeBloodGroup, employeeMaritalStatus, employeeNumber, employeeGender, employeeDoB, employeeDesignation } = req.body
     
     try {
         
@@ -90,8 +90,35 @@ const updateProfile = async (req, res) => {
     } catch (error) {
         res.status(500).json({ success: false, message: "Server error..." });
     }
-    
+};
 
+const replaceProfile = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const existingProfile = await Profile.findById(id);
+        console.log("existing profile:", existingProfile);
+        console.log("employeeId:", existingProfile.employeeId); 
+        if (!existingProfile) {
+            return res.status(404).json({ success: false, message: "Profile not found..." });
+        }
+        
+        const data = await Profile.findOneAndReplace(
+            { _id: id },
+            { ...req.body, employeeId: existingProfile.employeeId },
+            { returnDocument: "after", runValidators: true },
+        );
+        
+         return res.status(200).json({
+                message: `${data.employeeName} Profile Information Replaced...`,
+                data: data,
+                success: true
+            });
+        
+    } catch (error) {
+        console.log(error);
+        
+      return  res.status(500).json({ success: false, message: "Server error..." });
+    }
 }
 
-module.exports = { createProfileController, getProfileController, getSingleProfile, updateProfile  } ;
+module.exports = { createProfileController, getProfileController, getSingleProfile, updateProfile, replaceProfile  } ;

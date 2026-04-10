@@ -7,7 +7,7 @@ const profileSchema = new Schema({
     employeeId: {
         type: String,
         required: true,
-    },
+    }, 
     employeeName: {
         type: String,
         required: true,
