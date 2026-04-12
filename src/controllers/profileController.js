@@ -97,7 +97,7 @@ const replaceProfile = async (req, res) => {
     try {
         const existingProfile = await Profile.findById(id);
         console.log("existing profile:", existingProfile);
-        console.log("employeeId:", existingProfile.employeeId); 
+        console.log("employeeId:", existingProfile.employeeId);
         if (!existingProfile) {
             return res.status(404).json({ success: false, message: "Profile not found..." });
         }
@@ -108,17 +108,30 @@ const replaceProfile = async (req, res) => {
             { returnDocument: "after", runValidators: true },
         );
         
-         return res.status(200).json({
-                message: `${data.employeeName} Profile Information Replaced...`,
-                data: data,
-                success: true
-            });
+        return res.status(200).json({
+            message: `${data.employeeName} Profile Information Replaced...`,
+            data: data,
+            success: true
+        });
         
     } catch (error) {
         console.log(error);
         
-      return  res.status(500).json({ success: false, message: "Server error..." });
+        return res.status(500).json({ success: false, message: "Server error..." });
     }
-}
+};
 
-module.exports = { createProfileController, getProfileController, getSingleProfile, updateProfile, replaceProfile  } ;
+const holdProfile = async (req, res) => {
+    const { id } = req.body;
+    try {
+        const existingUser = await Profile.findOne({ _id: id });
+        existingUser.isHold = true
+        existingUser.save()
+        res.status(200).json({ success: true, message: 'Profile Hold kora hoise...' });
+        
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Server error..." });
+    }
+    
+}
+module.exports = { createProfileController, getProfileController, getSingleProfile, updateProfile, replaceProfile, holdProfile  } ;

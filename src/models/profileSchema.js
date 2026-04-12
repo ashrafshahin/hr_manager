@@ -22,7 +22,7 @@ const profileSchema = new Schema({
     employeeDesignation: {
         type: String,
         required: true,
-        unique:true,
+        
     },
 
     employeeAge: {
@@ -49,6 +49,11 @@ const profileSchema = new Schema({
     employeeDoB: {
         type: String,
         required: true,
+    },
+
+    isHold: {
+        type: Boolean,
+        default: false,
     },
 
 });
