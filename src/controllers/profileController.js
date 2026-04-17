@@ -37,7 +37,7 @@ const createProfileController = async (req, res) => {
             
         }).save()
         res.status(201).json({ success: true, message: "Employee Profile Created..." });
-        
+             
     } catch (error) {
         console.log(error);
         return res.status(500).json({ success: false, message: 'Server Error...' });
@@ -121,8 +121,9 @@ const replaceProfile = async (req, res) => {
     }
 };
 
+// Profile hold korar jonno .... Use hobe...//
 const holdProfile = async (req, res) => {
-    const { id } = req.body;
+    const { id } = req.params;
     try {
         const existingUser = await Profile.findOne({ _id: id });
         existingUser.isHold = true
@@ -134,4 +135,44 @@ const holdProfile = async (req, res) => {
     }
     
 }
-module.exports = { createProfileController, getProfileController, getSingleProfile, updateProfile, replaceProfile, holdProfile  } ;
+
+// activate profile... //
+const activateProfile = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const existingUser = await Profile.findOne({ _id: id });
+        existingUser.isHold = false
+        existingUser.save()
+        res.status(200).json({ success: true, message: 'Profile Activate kora hoise...' });
+
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Server error..." });
+    }
+}
+// Active Profile SHOW korbe.. //
+const activeProfiles = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const data = await Profile.find({ isHold: { $ne: true } });
+        // const data = await Profile.find({ isHold: false}); // another way...
+        res.status(200).json({ message: "All Active Employees Profiles...", data: data, success: true });
+
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Server error..." });
+    }
+};
+
+// Hold Profile SHOW korbe.. //
+const holdProfiles = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const data = await Profile.find({ isHold: { $ne: false } });
+        // const data = await Profile.find({ isHold: true }); // another way...
+        res.status(200).json({ message: "All Hold Employees Profiles...", data: data, success: true });
+
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Server error..." });
+    }
+};
+
+module.exports = { createProfileController, getProfileController, getSingleProfile, updateProfile, replaceProfile, holdProfile, activateProfile, activeProfiles, holdProfiles,  } ;

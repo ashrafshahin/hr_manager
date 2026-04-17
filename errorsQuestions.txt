@@ -1,0 +1,33 @@
+employeeDesignation: {
+        type: String,
+        required: true,
+        
+    },
+
+                ==== aita deya ase but same designation nai na keno =====
+
+Server Running on port 5000
+MongoDB Database Connected...
+MongoServerError: E11000 duplicate key error collection: hr_manager.profiles index: employeeDesignation_1 dup key: { employeeDesignation: "Assistant-Manager" }
+    at InsertOneOperation.handleOk (/Users/Shalhizan/Desktop/backend/hr-manager/node_modules/mongodb/lib/operations/insert.js:51:19)
+    at tryOperation (/Users/Shalhizan/Desktop/backend/hr-manager/node_modules/mongodb/lib/operations/execute_operation.js:217:34)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async executeOperation (/Users/Shalhizan/Desktop/backend/hr-manager/node_modules/mongodb/lib/operations/execute_operation.js:80:16)
+    at async Collection.insertOne (/Users/Shalhizan/Desktop/backend/hr-manager/node_modules/mongodb/lib/collection.js:154:16)
+    at async model.$__save (/Users/Shalhizan/Desktop/backend/hr-manager/node_modules/mongoose/lib/model.js:425:16)
+    at async model.save (/Users/Shalhizan/Desktop/backend/hr-manager/node_modules/mongoose/lib/model.js:664:5)
+    at async createProfileController (/Users/Shalhizan/Desktop/backend/hr-manager/src/controllers/profileController.js:26:25) {
+  errorLabelSet: Set(0) {},
+  errorResponse: {
+    index: 0,
+    code: 11000,
+    errmsg: 'E11000 duplicate key error collection: hr_manager.profiles index: employeeDesignation_1 dup key: { employeeDesignation: "Assistant-Manager" }',
+    keyPattern: { employeeDesignation: 1 },
+    keyValue: { employeeDesignation: 'Assistant-Manager' }
+  },
+  index: 0,
+  code: 11000,
+  keyPattern: { employeeDesignation: 1 },
+  keyValue: { employeeDesignation: 'Assistant-Manager' }
+}
+

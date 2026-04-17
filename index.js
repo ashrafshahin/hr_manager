@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 const dbConnection = require('./src/config/dbConnection')
 
 const { registrationController, loginController, logoutController } = require('./src/controllers/authController');
-const { createProfileController, getProfileController, getSingleProfile, updateProfile, replaceProfile, holdProfile } = require('./src/controllers/profileController');
+const { createProfileController, getProfileController, getSingleProfile, updateProfile, replaceProfile, holdProfile, activeProfiles, holdProfiles, activateProfile } = require('./src/controllers/profileController');
 
 const app = express()
 
@@ -28,7 +28,13 @@ app.get('/api/profile/getsingleprofile/:id', getSingleProfile);
 app.post('/api/profile/updateprofile/:id', updateProfile);
 app.put('/api/profile/replaceprofile/:id', replaceProfile);
 
+// hold or activate A Profile...//
 app.post('/api/profile/holdprofile/:id', holdProfile);
+app.post('/api/profile/activateprofile/:id', activateProfile);
+
+// show active or hold profile ..//
+app.get('/api/profile/activeprofiles/', activeProfiles);
+app.get('/api/profile/holdprofiles/', holdProfiles);
 
 
 
