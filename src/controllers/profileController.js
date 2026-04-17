@@ -175,4 +175,14 @@ const holdProfiles = async (req, res) => {
     }
 };
 
-module.exports = { createProfileController, getProfileController, getSingleProfile, updateProfile, replaceProfile, holdProfile, activateProfile, activeProfiles, holdProfiles,  } ;
+const deleteProfile = async (req,res) => {
+    const { id } = req.params;
+    try {
+        const data = await Profile.findByIdAndDelete({ _id: id });
+        res.status(200).json({ success: true, message: "Profile deleted..." });
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Server Error..." });
+    }
+}
+
+module.exports = { createProfileController, getProfileController, getSingleProfile, updateProfile, replaceProfile, holdProfile, activateProfile, activeProfiles, holdProfiles, deleteProfile  } ;
