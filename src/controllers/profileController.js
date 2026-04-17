@@ -15,6 +15,13 @@ const createProfileController = async (req, res) => {
         const number = Math.floor(10 + Math.random() * 99);
         const employeeId = 'EMP-' + firstThreeLetter + randomNumber.slice(-3) + 'Z&S' + number + dob
         // homework 1
+
+        const existingId = await Profile.findOne({ employeeId });
+        if (existingId) {
+            return res.status(409).json({
+                success: false, message: 'This Employee ID already used...'
+            })
+        }
         
         const existingProfile = await Profile.findOne({ employeeEmail: employeeEmail });
         if (existingProfile) {
@@ -175,12 +182,12 @@ const holdProfiles = async (req, res) => {
     }
 };
 
-const deleteProfile = async (req,res) => {
+const deleteProfile = async (req, res) => {
     const { id } = req.params;
     try {
         const existingProfile = await Profile.findByIdAndDelete({ _id: id });
         if (existingProfile) {
-            res.status(200).json({ success: true, message: "Profile deleted..." }); 
+            res.status(200).json({ success: true, message: "Profile deleted..." });
         } else {
             res.status(404).json({ success: false, message: "Profile not found..." });
         }
@@ -188,6 +195,26 @@ const deleteProfile = async (req,res) => {
     } catch (error) {
         res.status(500).json({ success: false, message: "Server Error..." });
     }
-}
+};
 
-module.exports = { createProfileController, getProfileController, getSingleProfile, updateProfile, replaceProfile, holdProfile, activateProfile, activeProfiles, holdProfiles, deleteProfile  } ;
+// try to find employee by employeeId...//
+const getProfileByEmployeeId = async (req, res) => {
+    const { employeeId } = req.body;
+    try {
+        const data = await Profile.findOne({ employeeId : employeeId });
+        if (data) {
+            res.status(200).json({
+                message: `${data.employeeName},${data.employeeAge} Profile`,
+                data: data,
+                success: true
+            });
+        } else {
+            res.status(400).json({ success: false, message: 'Employee Data not Found...' });
+        }
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Server Error...' });
+    }
+
+};
+
+module.exports = { createProfileController, getProfileController, getSingleProfile, updateProfile, replaceProfile, holdProfile, activateProfile, activeProfiles, holdProfiles, deleteProfile, getProfileByEmployeeId   } ;

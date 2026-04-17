@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 const dbConnection = require('./src/config/dbConnection')
 
 const { registrationController, loginController, logoutController } = require('./src/controllers/authController');
-const { createProfileController, getProfileController, getSingleProfile, updateProfile, replaceProfile, holdProfile, activeProfiles, holdProfiles, activateProfile, deleteProfile } = require('./src/controllers/profileController');
+const { createProfileController, getProfileController, getSingleProfile, updateProfile, replaceProfile, holdProfile, activeProfiles, holdProfiles, activateProfile, deleteProfile, getProfileById, getProfileByEmployeeId } = require('./src/controllers/profileController');
 
 const app = express()
 
@@ -38,6 +38,8 @@ app.get('/api/profile/holdprofiles/', holdProfiles);
 
 // delete profile
 app.delete('/api/profile/deleteprofile/:id', deleteProfile);
+
+app.get('/api/profile/getprofilebyemployeeid/', getProfileByEmployeeId);
 
 
 // test on port environment...
