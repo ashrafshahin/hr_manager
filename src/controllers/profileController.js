@@ -178,8 +178,13 @@ const holdProfiles = async (req, res) => {
 const deleteProfile = async (req,res) => {
     const { id } = req.params;
     try {
-        const data = await Profile.findByIdAndDelete({ _id: id });
-        res.status(200).json({ success: true, message: "Profile deleted..." });
+        const existingProfile = await Profile.findByIdAndDelete({ _id: id });
+        if (existingProfile) {
+            res.status(200).json({ success: true, message: "Profile deleted..." }); 
+        } else {
+            res.status(404).json({ success: false, message: "Profile not found..." });
+        }
+        
     } catch (error) {
         res.status(500).json({ success: false, message: "Server Error..." });
     }
